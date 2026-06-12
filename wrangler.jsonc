@@ -1,13 +1,10 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "nasduvolantv3",
+  "name": "tanstack-start-app",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "dist/server/assets/server-BuU-XlGc.js",
-  "assets": {
-    "directory": "dist/client"
-  }
- "vars": {
+  "main": "src/server.ts",
+  "vars": {
     "GOOGLE_PLACES_API_KEY": ""
   }
 }
