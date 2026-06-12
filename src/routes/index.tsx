@@ -220,21 +220,15 @@ function Home() {
           </h2>
           <p className="mt-4 text-muted-foreground">133 Av. Franklin Roosevelt, 69500 Bron</p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
+            {[{
                 icon: "🚌",
                 title: "Bus",
-                lines: ["Ligne 24 — arrêt Franklin Roosevelt", "Ligne 79 — arrêt Franklin Roosevelt", "Ligne C17 — arrêt Franklin Roosevelt"],
+                lines: ["Ligne 24 — arrêt Franklin Roosevelt", "Ligne 79 — arrêt Franklin Roosevelt", "Ligne C17 — arrêt Franklin Roosevelt", "Ligne C26 — arrêt Bron"],
               },
               {
                 icon: "🚊",
                 title: "Tramway",
-                lines: ["T2 — arrêt Bron Bruyères ou Jet d'Eau - Mendès France", "T5 — arrêt à proximité"],
-              },
-              {
-                icon: "🚌",
-                title: "Bus (suite)",
-                lines: ["Ligne C26 (réseau TCL) — arrêt Bron"],
+                lines: ["T2 & T5 — arrêt Boutasse - Camille Rousset (1 min à pied)"],
               },
             ].map((m) => (
               <div key={m.title} className="rounded-2xl border border-border bg-card p-8">
