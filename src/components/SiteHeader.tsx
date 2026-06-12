@@ -22,7 +22,7 @@ export function SiteHeader() {
         .mobile-panel { transform: translateX(100%); transition: transform 0.3s ease; }
       `}</style>
 
-      <input type="checkbox" id="mobile-menu-toggle" />
+      <input type="checkbox" id="mobile-menu-toggle" className="hidden" />
 
       <header className="sticky top-0 z-50 border-b border-border/40 bg-background/90 backdrop-blur-xl">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 flex h-16 items-center justify-between gap-8">
