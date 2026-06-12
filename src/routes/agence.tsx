@@ -125,8 +125,7 @@ function Agence() {
                 <div>
                   <div className="text-xs uppercase tracking-wider text-primary mb-2">🚊 Tramway</div>
                   <ul className="space-y-1 text-sm text-muted-foreground">
-                    <li>T2 — arrêt Bron Bruyères ou Jet d'Eau - Mendès France</li>
-                    <li>T5 — arrêt à proximité</li>
+                    <li>T2 & T5 — arrêt Boutasse - Camille Rousset (1 min à pied)</li>
                   </ul>
                 </div>
               </div>
