@@ -112,14 +112,29 @@ function Agence() {
             </div>
             <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6">
               <h3 className="font-display text-xl">Comment venir ?</h3>
-              <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                L'agence est accessible en transport en commun (TCL), en voiture avec parking à proximité, et à vélo via les pistes cyclables de l'avenue Franklin Roosevelt.
-              </p>
+              <div className="mt-4 space-y-4">
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-primary mb-2">🚌 Bus</div>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li>Ligne 24 — arrêt Franklin Roosevelt</li>
+                    <li>Ligne 79 — arrêt Franklin Roosevelt</li>
+                    <li>Ligne C17 — arrêt Franklin Roosevelt</li>
+                    <li>Ligne C26 — arrêt Bron</li>
+                  </ul>
+                </div>
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-primary mb-2">🚊 Tramway</div>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li>T2 — arrêt Bron Bruyères ou Jet d'Eau - Mendès France</li>
+                    <li>T5 — arrêt à proximité</li>
+                  </ul>
+                </div>
+              </div>
               <a
                 href="https://www.google.com/maps/dir//133+Avenue+Franklin+Roosevelt,+69500+Bron"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-flex items-center gap-2 text-sm text-primary hover:underline"
+                className="mt-5 inline-flex items-center gap-2 text-sm text-primary hover:underline"
               >
                 Itinéraire Google Maps <ArrowRight className="h-4 w-4" />
               </a>

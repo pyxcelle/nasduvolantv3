@@ -232,9 +232,9 @@ function Home() {
                 lines: ["T2 — arrêt Bron Bruyères ou Jet d'Eau - Mendès France", "T5 — arrêt à proximité"],
               },
               {
-                icon: "🚆",
-                title: "Train",
-                lines: ["Ligne C26 (réseau TCL) — gare Bron"],
+                icon: "🚌",
+                title: "Bus (suite)",
+                lines: ["Ligne C26 (réseau TCL) — arrêt Bron"],
               },
             ].map((m) => (
               <div key={m.title} className="rounded-2xl border border-border bg-card p-8">

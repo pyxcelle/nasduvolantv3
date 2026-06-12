@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Phone, X } from "lucide-react";
+import { Phone, X, Menu } from "lucide-react";
 import { useState, useEffect } from "react";
-
 
 const nav = [
   { label: "Formations", to: "/formations" },
@@ -13,16 +12,17 @@ const nav = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // Prevent body scroll when menu is open
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
-  }, [open]);
+  }, [open, mounted]);
 
   return (
     <>
@@ -54,75 +54,61 @@ export function SiteHeader() {
             <Phone className="h-4 w-4" /> 09 78 80 22 32
           </a>
 
-          {/* Mobile burger — z-[60] to stay above overlay */}
+          {/* Mobile burger */}
           <button
-            className="relative z-[60] lg:hidden flex flex-col justify-center items-center w-10 h-10 rounded-lg hover:bg-secondary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-            aria-expanded={open}
+            className="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-secondary transition-colors"
+            onClick={() => setOpen(v => !v)}
+            aria-label="Ouvrir le menu"
           >
-            <span
-              className={`block h-0.5 w-5 bg-foreground rounded-full transition-all duration-300 ${open ? "rotate-45 translate-y-[3px]" : "-translate-y-[3px]"}`}
-            />
-            <span
-              className={`block h-0.5 w-5 bg-foreground rounded-full transition-all duration-300 ${open ? "opacity-0 scale-x-0" : "opacity-100"}`}
-            />
-            <span
-              className={`block h-0.5 w-5 bg-foreground rounded-full transition-all duration-300 ${open ? "-rotate-45 -translate-y-[3px]" : "translate-y-[3px]"}`}
-            />
+            <Menu className="h-6 w-6" />
           </button>
         </div>
       </header>
 
-      {/* Mobile menu overlay */}
-      {open && (
-        <div
-          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-          onClick={() => setOpen(false)}
-          aria-hidden="true"
-        />
-      )}
-
-      {/* Mobile menu panel */}
-      {open && (
-      <div
-        className="fixed top-0 right-0 z-50 h-full w-72 max-w-full bg-background shadow-2xl lg:hidden flex flex-col"
-      >
-        <div className="flex items-center justify-between px-6 h-16 border-b border-border shrink-0">
-          <span className="font-display italic text-lg">N'as du Volant</span>
-          <button
-            className="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-secondary transition-colors"
+      {/* Mobile menu — only rendered client-side to avoid SSR mismatch */}
+      {mounted && open && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/50 lg:hidden"
             onClick={() => setOpen(false)}
-            aria-label="Fermer le menu"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
+          />
+          <div className="fixed top-0 right-0 z-50 h-full w-72 max-w-full bg-background shadow-2xl lg:hidden flex flex-col">
+            <div className="flex items-center justify-between px-6 h-16 border-b border-border shrink-0">
+              <span className="font-display italic text-lg">N'as du Volant</span>
+              <button
+                className="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-secondary transition-colors"
+                onClick={() => setOpen(false)}
+                aria-label="Fermer le menu"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
 
-        <nav className="flex-1 overflow-y-auto px-6 py-6 space-y-1">
-          {nav.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              className="flex items-center rounded-xl px-4 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
-              activeProps={{ className: "text-foreground font-medium bg-secondary" }}
-              onClick={() => setOpen(false)}
-            >
-              {n.label}
-            </Link>
-          ))}
-        </nav>
+            <nav className="flex-1 overflow-y-auto px-6 py-6 space-y-1">
+              {nav.map((n) => (
+                <Link
+                  key={n.to}
+                  to={n.to}
+                  className="flex items-center rounded-xl px-4 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+                  activeProps={{ className: "text-foreground font-medium bg-secondary" }}
+                  onClick={() => setOpen(false)}
+                >
+                  {n.label}
+                </Link>
+              ))}
+            </nav>
 
-        <div className="px-6 py-6 border-t border-border shrink-0">
-          <a
-            href="tel:+33978802232"
-            className="flex items-center justify-center gap-2 w-full rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all"
-            onClick={() => setOpen(false)}
-          >
-            <Phone className="h-4 w-4" /> 09 78 80 22 32
-          </a>
-        </div>
-      </div>
+            <div className="px-6 py-6 border-t border-border shrink-0">
+              <a
+                href="tel:+33978802232"
+                className="flex items-center justify-center gap-2 w-full rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all"
+                onClick={() => setOpen(false)}
+              >
+                <Phone className="h-4 w-4" /> 09 78 80 22 32
+              </a>
+            </div>
+          </div>
+        </>
       )}
     </>
   );
