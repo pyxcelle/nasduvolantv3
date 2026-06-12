@@ -193,7 +193,7 @@ function Home() {
                 <div className="flex gap-1 text-primary">
                   {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
                 </div>
-                <blockquote className="mt-4 font-display text-xl italic text-balance">"{t.q}"</blockquote>
+                <blockquote className="mt-4 text-sm leading-relaxed text-foreground/80">"{t.q}"</blockquote>
                 <figcaption className="mt-6 text-sm text-muted-foreground">— {t.n}</figcaption>
               </figure>
             ))}

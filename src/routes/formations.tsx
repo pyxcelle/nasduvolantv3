@@ -178,23 +178,18 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 
 function CallButton({ className }: { className?: string }) {
   const [showModal, setShowModal] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    setIsMobile(/Mobi|Android|iPhone/i.test(navigator.userAgent));
-  }, []);
-
-  if (isMobile) {
-    return (
-      <a href="tel:+33978802232" className={className}>
-        Nous appeler <ArrowRight className="h-4 w-4" />
-      </a>
-    );
-  }
+  const handleClick = () => {
+    if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+      window.location.href = "tel:+33978802232";
+    } else {
+      setShowModal(true);
+    }
+  };
 
   return (
     <>
-      <button onClick={() => setShowModal(true)} className={className}>
+      <button onClick={handleClick} className={className}>
         Nous contacter <ArrowRight className="h-4 w-4" />
       </button>
       {showModal && <ContactModal onClose={() => setShowModal(false)} />}
@@ -244,10 +239,6 @@ function Formations() {
               </ul>
             </article>
           ))}
-        </div>
-
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 mt-12 text-center">
-          <CallButton className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all" />
         </div>
       </section>
 
