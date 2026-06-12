@@ -181,7 +181,7 @@ function CallButton({ className }: { className?: string }) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    setIsMobile(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent));
+    setIsMobile(/Mobi|Android|iPhone/i.test(navigator.userAgent));
   }, []);
 
   if (isMobile) {
