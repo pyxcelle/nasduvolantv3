@@ -74,7 +74,7 @@ function Avis() {
                 <div className="flex gap-1 text-primary">
                   {[...Array(t.note)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
                 </div>
-                <blockquote className="mt-4 font-display text-lg italic text-balance">"{t.t}"</blockquote>
+                <blockquote className="mt-4 text-sm leading-relaxed text-foreground/80">"{t.t}"</blockquote>
                 <figcaption className="mt-6 flex justify-between items-center text-sm text-muted-foreground">
                   <span>— {t.n}</span>
                   <span className="text-xs">{t.date}</span>
