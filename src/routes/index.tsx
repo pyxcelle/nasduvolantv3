@@ -1,10 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Car, BookOpen, GraduationCap, Sparkles, CheckCircle2, Star } from "lucide-react";
-import { useGoogleRating } from "@/hooks/use-google-rating";
-import hero from "@/assets/hero-driving.jpg";
-import lesson from "@/assets/lesson.jpg";
-import student from "@/assets/student-success.jpg";
-import voiture from "@/assets/voiture.png";
+import { useState, useEffect } from "react";
+
+const PLACE_ID = "ChIJF2sXKTjB9EcR6ty4qnkxDlw";
+
+interface GoogleRating { rating: string; count: number; mapsUrl: string; reviewUrl: string; }
+
+function useGoogleRating() {
+  const [data, setData] = useState<GoogleRating | null>(null);
+  useEffect(() => {
+    fetch("/api/google-rating").then(r => r.json()).then(setData).catch(() => {});
+  }, []);
+  return data;
+}
+
+
+
+
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,14 +32,13 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { data: googleRating } = useGoogleRating();
-
+  const googleRating = useGoogleRating();
   return (
     <>
       {/* HERO */}
       <section className="relative overflow-hidden bg-gradient-hero">
         <div className="absolute inset-0 opacity-50">
-          <img src={hero} alt="" className="h-full w-full object-cover" width={1600} height={1100} />
+          <img src="/images/hero-driving.jpg" alt="" className="h-full w-full object-cover" width={1600} height={1100} />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
         </div>
@@ -54,7 +66,7 @@ function Home() {
             <div className="mt-16 grid grid-cols-2 gap-8 max-w-sm">
               {[
                 { v: googleRating ? `${googleRating.rating}/5` : "4,9/5", l: "Note Google" },
-                { v: googleRating ? String(googleRating.count) : "233", l: "Avis Google" },
+                { v: googleRating ? String(googleRating.count) : "233+", l: "Avis Google" },
               ].map((s) => (
                 <div key={s.l}>
                   <div className="font-display text-3xl lg:text-4xl text-primary">{s.v}</div>
@@ -106,7 +118,7 @@ function Home() {
       <section className="relative py-28 bg-ink overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 grid gap-16 lg:grid-cols-2 items-center">
           <div className="relative">
-            <img src={lesson} alt="Cours de conduite chez N'as du Volant" loading="lazy" width={1400} height={1000} className="rounded-2xl shadow-card" />
+            <img src="/images/lesson.jpg" alt="Cours de conduite chez N'as du Volant" loading="lazy" width={1400} height={1000} className="rounded-2xl shadow-card" />
             <div className="absolute -bottom-6 -right-6 rounded-2xl bg-primary p-6 text-primary-foreground shadow-red max-w-xs hidden sm:block">
               <div className="font-display text-3xl italic">+10 ans</div>
               <div className="text-xs uppercase tracking-wider mt-1 opacity-90">d'expérience à Bron</div>
@@ -147,7 +159,7 @@ function Home() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="rounded-3xl overflow-hidden relative bg-ink">
             <img
-              src={voiture}
+              src="/images/voiture.png"
               alt="Véhicule de l'auto-école N'as du Volant"
               loading="lazy"
               className="w-full h-72 sm:h-96 object-cover object-center"
@@ -174,8 +186,8 @@ function Home() {
           <div className="mt-16 grid gap-6 lg:grid-cols-3">
             {[
               { n: "Melik S.", q: "Franchement, un grand merci à toute N'as du Volant. Ils ont toujours été là pour moi, ils m'ont soutenu du début à la fin et m'ont redonné confiance chaque fois que j'en avais besoin. Grâce à eux, j'ai enfin eu mon permis. Une super équipe, je recommande fortement !" },
-              { n: "Client vérifié", q: "Auto-école avec des monitrices qui donnent envie d'aller conduire ! Très arrangeantes niveau créneaux et hyper rapides pour trouver des dates de permis. Je recommande à 100%." },
-              { n: "Client vérifié", q: "Une excellente auto-école ! Toute l'équipe est très professionnelle, bienveillante et à l'écoute. Des monitrices pédagogues et patientes qui m'ont vraiment mis en confiance. Je recommande vivement !" },
+              { n: "Yasmine B.", q: "Auto-école avec des monitrices qui donnent envie d'aller conduire ! Très arrangeantes niveau créneaux et hyper rapides pour trouver des dates de permis. Je recommande à 100%." },
+              { n: "Romain T.", q: "Une excellente auto-école ! Toute l'équipe est très professionnelle, bienveillante et à l'écoute. Des monitrices pédagogues et patientes qui m'ont vraiment mis en confiance. Je recommande vivement !" },
             ].map((t) => (
               <figure key={t.n} className="rounded-2xl border border-border bg-card p-8">
                 <div className="flex gap-1 text-primary">
@@ -188,7 +200,7 @@ function Home() {
           </div>
           <div className="mt-10 text-center">
             <a
-              href={googleRating?.mapsUrl ?? "https://www.google.com/maps/place/?q=place_id:ChIJF2sXKTjB9EcR6ty4qnkxDlw"}
+              href={googleRating?.mapsUrl ?? `https://www.google.com/maps/place/?q=place_id:${PLACE_ID}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
@@ -254,7 +266,7 @@ function Home() {
       {/* CTA */}
       <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0">
-          <img src={student} alt="" className="h-full w-full object-cover opacity-20" loading="lazy" width={1200} height={1400} />
+          <img src="/images/student-success.jpg" alt="" className="h-full w-full object-cover opacity-20" loading="lazy" width={1200} height={1400} />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/50" />
         </div>
         <div className="relative mx-auto max-w-4xl px-6 lg:px-10 text-center">
