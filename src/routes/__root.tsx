@@ -11,7 +11,7 @@ import {
 import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { Phone, Mail, X } from "lucide-react";
+import { Phone, Mail, X, Copy, Check } from "lucide-react";
 
 function NotFoundComponent() {
   return (
@@ -85,16 +85,17 @@ function RootShell({ children }: { children: React.ReactNode }) {
           dangerouslySetInnerHTML={{
             __html: `
               (function () {
-                function bindFooterPhoneCopy() {
-                  var btn = document.getElementById("footer-phone-copy");
+                var ids = ["footer-phone-copy", "modal-phone-copy"];
+                function bindCopyButton(buttonId) {
+                  var btn = document.getElementById(buttonId);
                   if (!btn || btn.dataset.bound) return;
                   btn.dataset.bound = "true";
                   btn.addEventListener("click", function () {
                     var text = btn.getAttribute("data-phone") || "";
                     function showCopied() {
-                      var copyIcon = document.getElementById("footer-phone-copy-icon");
-                      var checkIcon = document.getElementById("footer-phone-check-icon");
-                      var label = document.getElementById("footer-phone-copied-label");
+                      var copyIcon = document.getElementById(buttonId + "-icon");
+                      var checkIcon = document.getElementById(buttonId.replace("-copy", "-check") + "-icon");
+                      var label = document.getElementById(buttonId.replace("-copy", "-copied") + "-label");
                       if (copyIcon) copyIcon.classList.add("hidden");
                       if (checkIcon) checkIcon.classList.remove("hidden");
                       if (label) label.classList.remove("hidden");
@@ -126,10 +127,13 @@ function RootShell({ children }: { children: React.ReactNode }) {
                     }
                   });
                 }
+                function bindAll() {
+                  ids.forEach(bindCopyButton);
+                }
                 if (document.readyState === "loading") {
-                  document.addEventListener("DOMContentLoaded", bindFooterPhoneCopy);
+                  document.addEventListener("DOMContentLoaded", bindAll);
                 } else {
-                  bindFooterPhoneCopy();
+                  bindAll();
                 }
               })();
             `,
@@ -179,15 +183,26 @@ function RootComponent() {
             <h2 className="font-display text-2xl text-balance">Une question sur votre formation ?</h2>
             <p className="mt-2 text-sm text-muted-foreground">Notre équipe vous répond et construit avec vous le parcours idéal.</p>
             <div className="mt-6 space-y-3">
-              <div className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium">
+              <button
+                type="button"
+                id="modal-phone-copy"
+                data-phone="09 78 80 22 32"
+                title="Copier le numéro"
+                className="w-full flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium hover:border-primary/50 transition-colors text-left cursor-pointer"
+              >
                 <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                   <Phone className="h-4 w-4" />
                 </div>
-                <div>
-                  <div style={{ userSelect: "text", cursor: "text" }} className="font-medium">09 78 80 22 32</div>
+                <div className="flex-1">
+                  <div className="font-medium flex items-center gap-1.5">
+                    09 78 80 22 32
+                    <Copy id="modal-phone-copy-icon" className="h-3 w-3 text-muted-foreground" />
+                    <Check id="modal-phone-check-icon" className="h-3 w-3 text-primary hidden" />
+                    <span id="modal-phone-copied-label" className="text-xs text-primary hidden">Copié !</span>
+                  </div>
                   <div className="text-xs text-muted-foreground">Lun–Ven 14h–19h · Sam 10h–12h</div>
                 </div>
-              </div>
+              </button>
               <a href="mailto:nasduvolant@gmail.com" className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium hover:border-primary/50 transition-colors">
                 <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                   <Mail className="h-4 w-4" />
