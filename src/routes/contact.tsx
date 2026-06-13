@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Phone, Clock, Mail, Train } from "lucide-react";
+import { MapPin, Phone, Clock, Mail, Train, Copy, Check } from "lucide-react";
+import { CallButton } from "../components/CallButton";
+import { useState } from "react";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -10,6 +12,27 @@ export const Route = createFileRoute("/contact")({
   }),
   component: Contact,
 });
+
+function PhoneCopyButton() {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText("09 78 80 22 32").then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      className="mt-1 flex items-center gap-2 text-sm leading-relaxed font-medium hover:text-primary transition-colors group"
+    >
+      09 78 80 22 32
+      {copied ? <Check className="h-3.5 w-3.5 text-primary" /> : <Copy className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />}
+      {copied && <span className="text-xs text-primary">Copié !</span>}
+    </button>
+  );
+}
 
 function Contact() {
   return (
@@ -24,9 +47,9 @@ function Contact() {
             Une question, un devis, une inscription ? Appelez-nous ou écrivez-nous par email.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <a href="tel:+33978802232" className="inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-base font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
+            <CallButton className="inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-base font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
               <Phone className="h-5 w-5" /> 09 78 80 22 32
-            </a>
+            </CallButton>
             <a href="mailto:nasduvolant@gmail.com" className="inline-flex items-center gap-3 rounded-full border border-border px-8 py-4 text-base font-medium hover:bg-secondary transition-colors">
               <Mail className="h-5 w-5" /> nasduvolant@gmail.com
             </a>
@@ -37,30 +60,55 @@ function Contact() {
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 grid gap-12 lg:grid-cols-2">
           <div className="space-y-6">
-            {[
-              { icon: MapPin, t: "Adresse", v: "133 Av. Franklin Roosevelt\n69500 Bron" },
-              { icon: Phone, t: "Téléphone", v: "09 78 80 22 32" },
-              { icon: Mail, t: "Email", v: "nasduvolant@gmail.com" },
-              { icon: Clock, t: "Horaires d'ouverture", v: "Lundi au vendredi : 14h00 – 19h00\nSamedi : 10h00 – 12h00\nDimanche : Fermé" },
-            ].map((b) => (
-              <div key={b.t} className="rounded-2xl border border-border bg-card p-6 flex gap-4">
-                <div className="h-11 w-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                  <b.icon className="h-5 w-5" />
-                </div>
-                <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{b.t}</div>
-                  <div className="mt-1 whitespace-pre-line text-sm leading-relaxed">{b.v}</div>
-                </div>
+            {/* Address */}
+            <div className="rounded-2xl border border-border bg-card p-6 flex gap-4">
+              <div className="h-11 w-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <MapPin className="h-5 w-5" />
               </div>
-            ))}
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Adresse</div>
+                <div className="mt-1 whitespace-pre-line text-sm leading-relaxed">133 Av. Franklin Roosevelt{"\n"}69500 Bron</div>
+              </div>
+            </div>
+            {/* Phone — copy only */}
+            <div className="rounded-2xl border border-border bg-card p-6 flex gap-4">
+              <div className="h-11 w-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <Phone className="h-5 w-5" />
+              </div>
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Téléphone</div>
+                <PhoneCopyButton />
+              </div>
+            </div>
+            {/* Email */}
+            <div className="rounded-2xl border border-border bg-card p-6 flex gap-4">
+              <div className="h-11 w-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <Mail className="h-5 w-5" />
+              </div>
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Email</div>
+                <a href="mailto:nasduvolant@gmail.com" className="mt-1 text-sm leading-relaxed hover:text-primary transition-colors">nasduvolant@gmail.com</a>
+              </div>
+            </div>
+            {/* Hours */}
+            <div className="rounded-2xl border border-border bg-card p-6 flex gap-4">
+              <div className="h-11 w-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <Clock className="h-5 w-5" />
+              </div>
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Horaires d'ouverture</div>
+                <div className="mt-1 whitespace-pre-line text-sm leading-relaxed">Lundi au vendredi : 14h00 – 19h00{"\n"}Samedi : 10h00 – 12h00{"\n"}Dimanche : Fermé</div>
+              </div>
+            </div>
+
             <div className="rounded-2xl border border-primary/30 bg-primary/5 p-6">
               <p className="text-sm text-muted-foreground leading-relaxed">
                 <span className="font-medium text-foreground">Contactez-nous :</span> par téléphone pour une réponse immédiate, ou par email si vous préférez nous écrire.
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
-                <a href="tel:+33978802232" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
+                <CallButton className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
                   <Phone className="h-4 w-4" /> Appeler maintenant
-                </a>
+                </CallButton>
                 <a href="mailto:nasduvolant@gmail.com" className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium hover:bg-secondary transition-colors">
                   <Mail className="h-4 w-4" /> Envoyer un email
                 </a>

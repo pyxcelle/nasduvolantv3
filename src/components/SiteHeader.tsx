@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Phone } from "lucide-react";
+import { CallButton } from "./CallButton";
 
 const nav = [
   { label: "Formations", to: "/formations" },
@@ -44,12 +45,10 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <a
-            href="tel:+33978802232"
-            className="hidden sm:inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all shrink-0"
-          >
+          {/* Header CTA — mobile appelle, desktop/tablette ouvre le modal */}
+          <CallButton className="items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all shrink-0 hidden sm:inline-flex">
             <Phone className="h-4 w-4" /> 09 78 80 22 32
-          </a>
+          </CallButton>
 
           {/* Burger label — triggers the checkbox */}
           <label
@@ -108,6 +107,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="px-6 py-6 border-t border-border shrink-0">
+          {/* In mobile panel: always direct call */}
           <a
             href="tel:+33978802232"
             className="flex items-center justify-center gap-2 w-full rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all"

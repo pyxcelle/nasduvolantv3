@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Phone, Clock, Mail, ArrowRight } from "lucide-react";
+import { MapPin, Phone, Clock, Mail, ArrowRight, Copy, Check } from "lucide-react";
+import { CallButton } from "../components/CallButton";
+import { useState } from "react";
 
 export const Route = createFileRoute("/agence")({
   head: () => ({
@@ -10,6 +12,27 @@ export const Route = createFileRoute("/agence")({
   }),
   component: Agence,
 });
+
+function PhoneCopyButton() {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText("09 78 80 22 32").then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      className="mt-1 flex items-center gap-2 font-medium hover:text-primary transition-colors group"
+    >
+      09 78 80 22 32
+      {copied ? <Check className="h-3.5 w-3.5 text-primary" /> : <Copy className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />}
+      {copied && <span className="text-xs text-primary">Copié !</span>}
+    </button>
+  );
+}
 
 function Agence() {
   return (
@@ -24,9 +47,9 @@ function Agence() {
             Située au cœur de Bron, notre agence est facilement accessible en voiture, en bus ou à pied.
             Un seul moyen de nous contacter : le téléphone.
           </p>
-          <a href="tel:+33978802232" className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
+          <CallButton className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
             <Phone className="h-4 w-4" /> 09 78 80 22 32
-          </a>
+          </CallButton>
         </div>
       </section>
 
@@ -50,7 +73,7 @@ function Agence() {
               </div>
               <div>
                 <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Téléphone</div>
-                <a href="tel:+33978802232" className="mt-1 font-medium hover:text-primary transition-colors">09 78 80 22 32</a>
+                <PhoneCopyButton />
               </div>
             </div>
 

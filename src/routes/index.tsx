@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Car, BookOpen, GraduationCap, Sparkles, CheckCircle2, Star } from "lucide-react";
 import { useState, useEffect } from "react";
+import { CallButton } from "../components/CallButton";
 
 const PLACE_ID = "ChIJF2sXKTjB9EcR6ty4qnkxDlw";
 
@@ -55,10 +56,10 @@ function Home() {
               des moniteurs diplômés d'État, et un suivi sur-mesure à chaque virage.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <a href="tel:+33978802232" className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
+              <CallButton className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
                 Nous appeler
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </CallButton>
               <Link to="/formations" className="inline-flex items-center gap-2 rounded-full border border-border px-7 py-4 text-sm font-medium hover:bg-secondary transition-colors">
                 Nos formations
               </Link>
@@ -271,9 +272,9 @@ function Home() {
             Contactez-nous directement par téléphone ou passez nous voir au 133 Av. Franklin Roosevelt à Bron.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <a href="tel:+33978802232" className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground shadow-red">
+            <CallButton className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground shadow-red">
               Nous appeler <ArrowRight className="h-4 w-4" />
-            </a>
+            </CallButton>
             <Link to="/inscription" className="inline-flex items-center gap-2 rounded-full border border-border px-8 py-4 text-sm">
               S'inscrire
             </Link>

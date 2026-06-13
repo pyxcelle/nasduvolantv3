@@ -1,6 +1,27 @@
 import { Link } from "@tanstack/react-router";
-import { MapPin, Phone, Clock, Mail } from "lucide-react";
+import { MapPin, Phone, Clock, Mail, Copy, Check } from "lucide-react";
 import logo from "@/assets/logo-nas-du-volant.jpg";
+import { useState } from "react";
+
+function FooterPhoneCopy() {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText("09 78 80 22 32").then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      className="flex items-center gap-1.5 hover:text-primary transition-colors group"
+    >
+      09 78 80 22 32
+      {copied ? <Check className="h-3 w-3 text-primary" /> : <Copy className="h-3 w-3 opacity-0 group-hover:opacity-60 transition-opacity" />}
+    </button>
+  );
+}
 
 export function SiteFooter() {
   return (
@@ -34,7 +55,7 @@ export function SiteFooter() {
           <div className="text-xs tracking-[0.3em] uppercase text-primary mb-5">Contact</div>
           <ul className="space-y-3 text-sm">
             <li className="flex gap-2"><MapPin className="h-4 w-4 mt-0.5 text-primary shrink-0" />133 Av. Franklin Roosevelt, 69500 Bron</li>
-            <li className="flex gap-2"><Phone className="h-4 w-4 mt-0.5 text-primary shrink-0" /><a href="tel:+33978802232" className="hover:text-primary transition-colors">09 78 80 22 32</a></li>
+            <li className="flex gap-2"><Phone className="h-4 w-4 mt-0.5 text-primary shrink-0" /><FooterPhoneCopy /></li>
             <li className="flex gap-2"><Mail className="h-4 w-4 mt-0.5 text-primary shrink-0" /><a href="mailto:nasduvolant@gmail.com" className="hover:text-primary transition-colors">nasduvolant@gmail.com</a></li>
             <li className="flex gap-2 items-start"><Clock className="h-4 w-4 mt-0.5 text-primary shrink-0" /><span className="text-xs leading-relaxed">Lun : 14h–19h · Mar–Ven : 10h–12h, 14h–19h · Sam : 9h–12h</span></li>
           </ul>
