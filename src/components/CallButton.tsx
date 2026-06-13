@@ -19,7 +19,6 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
   return (
     <>
       <style>{`
-        /* Checkbox toujours invisible */
         #${checkboxId} {
           position: absolute;
           opacity: 0;
@@ -28,7 +27,6 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
           height: 0;
         }
 
-        /* Mobile → lien direct, pas de modal */
         .${id}-label-desktop { display: none; }
         .${id}-link-mobile   { display: inline-flex; }
 
@@ -37,45 +35,17 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
           .${id}-link-mobile   { display: none; }
         }
 
-        /* Modal caché par défaut */
+        /* Modal : caché par défaut */
         #${modalId} {
           display: none;
-          position: fixed;
-          inset: 0;
-          z-index: 200;
-          padding: 2rem 1.5rem;
-          background: rgba(0,0,0,0.6);
-          backdrop-filter: blur(4px);
-          /* centrage vertical avec scroll si écran trop petit */
-          overflow-y: auto;
-          align-items: flex-start;
-          justify-content: center;
         }
 
         /* Visible quand cochée */
         #${checkboxId}:checked ~ #${modalId} {
-          display: flex;
-        }
-
-        /* Overlay derrière la card */
-        #${modalId} .modal-overlay {
-          position: fixed;
-          inset: 0;
-          z-index: 0;
-          cursor: default;
-        }
-
-        /* Card au-dessus de l'overlay */
-        #${modalId} .modal-card {
-          position: relative;
-          z-index: 1;
-          margin: auto;
-          width: 100%;
-          max-width: 24rem;
+          display: block;
         }
       `}</style>
 
-      {/* Checkbox cachée */}
       <input type="checkbox" id={checkboxId} />
 
       {/* Mobile : appel direct */}
@@ -86,7 +56,7 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
         {children ?? defaultContent}
       </a>
 
-      {/* Desktop : label ouvre le modal */}
+      {/* Desktop : ouvre le modal */}
       <label
         htmlFor={checkboxId}
         className={`${id}-label-desktop items-center gap-2 cursor-pointer ${className}`}
@@ -95,14 +65,37 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
       </label>
 
       {/* Modal */}
-      <div id={modalId} role="dialog" aria-modal="true" aria-label="Nous contacter">
+      <div id={modalId}>
+        {/* Overlay fixe, couvre tout l'écran, z-index bas */}
+        <label
+          htmlFor={checkboxId}
+          aria-label="Fermer le modal"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 200,
+            background: "rgba(0,0,0,0.6)",
+            backdropFilter: "blur(4px)",
+            cursor: "default",
+            display: "block",
+          }}
+        />
 
-        {/* Overlay — ferme le modal */}
-        <label htmlFor={checkboxId} className="modal-overlay" aria-label="Fermer le modal" />
-
-        {/* Card — z-index: 1, au-dessus de l'overlay */}
-        <div className="modal-card rounded-3xl border border-border bg-card p-8 shadow-card">
-
+        {/* Card centrée, z-index au-dessus de l'overlay */}
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 201,
+            width: "calc(100% - 3rem)",
+            maxWidth: "24rem",
+            maxHeight: "calc(100vh - 4rem)",
+            overflowY: "auto",
+          }}
+          className="rounded-3xl border border-border bg-card p-8 shadow-card"
+        >
           {/* Croix */}
           <label
             htmlFor={checkboxId}
@@ -119,11 +112,8 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
           </p>
 
           <div className="mt-6 space-y-3">
-            {/* Numéro — sélectionnable, non cliquable, pointer-events: auto sur le contenu */}
-            <div
-              className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium"
-              style={{ userSelect: "text" }}
-            >
+            {/* Numéro — sélectionnable, aucun label autour */}
+            <div className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium">
               <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                 <Phone className="h-4 w-4" />
               </div>
