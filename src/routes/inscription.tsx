@@ -66,7 +66,7 @@ function Inscription() {
             Rassemblez ces documents et appelez-nous pour convenir d'un rendez-vous d'inscription.
             L'évaluation de départ est obligatoire avant de commencer la formation.
           </p>
-          <CallButton className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
+          <CallButton id="inscription-hero" className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
             Appeler pour s'inscrire <ArrowRight className="h-4 w-4" />
           </CallButton>
         </div>
@@ -102,7 +102,7 @@ function Inscription() {
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
                   Conformément à l'article L213-2 du Code de la route, une évaluation de départ est obligatoire avant de commencer la formation à la conduite. Elle se déroule en agence avec votre moniteur, dure environ 50 minutes, et permet de déterminer le nombre d'heures de conduite dont vous aurez besoin avant de passer l'examen pratique. Cette évaluation ne peut pas être réalisée par l'élève lui-même.
                 </p>
-                <CallButton className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
+                <CallButton id="inscription-rdv" className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
                   <Phone className="h-4 w-4" /> Prendre rendez-vous
                 </CallButton>
               </div>

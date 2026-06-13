@@ -47,7 +47,7 @@ function Agence() {
             Située au cœur de Bron, notre agence est facilement accessible en voiture, en bus ou à pied.
             Un seul moyen de nous contacter : le téléphone.
           </p>
-          <CallButton className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
+          <CallButton id="agence-hero" className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
             <Phone className="h-4 w-4" /> 09 78 80 22 32
           </CallButton>
         </div>

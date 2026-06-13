@@ -56,7 +56,7 @@ function Home() {
               des moniteurs diplômés d'État, et un suivi sur-mesure à chaque virage.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <CallButton className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
+              <CallButton id="index-hero" className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
                 Nous appeler
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </CallButton>
@@ -272,7 +272,7 @@ function Home() {
             Contactez-nous directement par téléphone ou passez nous voir au 133 Av. Franklin Roosevelt à Bron.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <CallButton className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground shadow-red">
+            <CallButton id="index-cta" className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground shadow-red">
               Nous appeler <ArrowRight className="h-4 w-4" />
             </CallButton>
             <Link to="/inscription" className="inline-flex items-center gap-2 rounded-full border border-border px-8 py-4 text-sm">

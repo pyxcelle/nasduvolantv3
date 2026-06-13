@@ -128,7 +128,7 @@ function Formations() {
             De la première leçon à l'examen, nous adaptons chaque formation à votre rythme,
             vos objectifs et votre emploi du temps. Appelez-nous pour construire ensemble votre parcours.
           </p>
-          <CallButton className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all" />
+          <CallButton id="formations-hero" className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all" />
         </div>
       </section>
 
@@ -167,7 +167,7 @@ function Formations() {
           </h2>
           <p className="mt-4 text-muted-foreground">Notre équipe vous répond par téléphone et construit avec vous le parcours idéal.</p>
           <div className="mt-8">
-            <CallButton className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all" />
+            <CallButton id="formations-cta" className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all" />
           </div>
         </div>
       </section>

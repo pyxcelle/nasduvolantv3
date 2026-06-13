@@ -46,7 +46,7 @@ export function SiteHeader() {
           </nav>
 
           {/* Header CTA — mobile appelle, desktop/tablette ouvre le modal */}
-          <CallButton className="items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all shrink-0 hidden sm:inline-flex">
+          <CallButton id="header-cta" className="items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all shrink-0 hidden sm:inline-flex">
             <Phone className="h-4 w-4" /> 09 78 80 22 32
           </CallButton>
 

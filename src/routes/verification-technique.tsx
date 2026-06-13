@@ -151,7 +151,7 @@ function VerificationTechnique() {
             >
               <Eye className="h-4 w-4" /> Ouvrir en ligne
             </a>
-            <CallButton className="inline-flex items-center gap-2 rounded-full border border-primary text-primary px-7 py-4 text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-colors">
+            <CallButton id="verif-hero" className="inline-flex items-center gap-2 rounded-full border border-primary text-primary px-7 py-4 text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-colors">
               <Phone className="h-4 w-4" /> Nous appeler
             </CallButton>
           </div>
@@ -256,7 +256,7 @@ function VerificationTechnique() {
               >
                 <Download className="h-4 w-4" /> Télécharger le PDF officiel
               </a>
-              <CallButton className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
+              <CallButton id="verif-cta" className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
                 <Phone className="h-4 w-4" /> 09 78 80 22 32 <ArrowRight className="h-4 w-4" />
               </CallButton>
             </div>

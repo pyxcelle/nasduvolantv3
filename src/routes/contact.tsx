@@ -47,7 +47,7 @@ function Contact() {
             Une question, un devis, une inscription ? Appelez-nous ou écrivez-nous par email.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <CallButton className="inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-base font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
+            <CallButton id="contact-hero" className="inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-base font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
               <Phone className="h-5 w-5" /> 09 78 80 22 32
             </CallButton>
             <a href="mailto:nasduvolant@gmail.com" className="inline-flex items-center gap-3 rounded-full border border-border px-8 py-4 text-base font-medium hover:bg-secondary transition-colors">
@@ -106,7 +106,7 @@ function Contact() {
                 <span className="font-medium text-foreground">Contactez-nous :</span> par téléphone pour une réponse immédiate, ou par email si vous préférez nous écrire.
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
-                <CallButton className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
+                <CallButton id="contact-cta" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all">
                   <Phone className="h-4 w-4" /> Appeler maintenant
                 </CallButton>
                 <a href="mailto:nasduvolant@gmail.com" className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium hover:bg-secondary transition-colors">
