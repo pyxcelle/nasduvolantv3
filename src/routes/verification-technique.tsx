@@ -181,7 +181,31 @@ function VerificationTechnique() {
               <Eye className="h-4 w-4" /> Ouvrir dans un nouvel onglet
             </a>
           </div>
-          <div className="rounded-3xl overflow-hidden border border-border shadow-card" style={{ height: "700px" }}>
+          {/* PC : visualiseur PDF natif (molette) */}
+          <div className="hidden lg:block rounded-3xl overflow-hidden border border-border shadow-card" style={{ height: "700px" }}>
+            <iframe
+              src="/banque-questions-examen-permis-b.pdf#toolbar=0&navpanes=0&scrollbar=1&view=FitH"
+              className="w-full h-full border-0"
+              title="Banque officielle de questions — Ministère de l'Intérieur"
+            >
+              <div className="flex flex-col items-center justify-center h-full gap-5 p-12 text-center">
+                <div className="h-16 w-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+                  <FileText className="h-8 w-8" />
+                </div>
+                <p className="text-sm text-muted-foreground">Votre navigateur ne supporte pas la lecture de PDF intégrée.</p>
+                <a
+                  href="/banque-questions-examen-permis-b.pdf"
+                  download
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:opacity-90 transition-all"
+                >
+                  <Download className="h-4 w-4" /> Télécharger le PDF
+                </a>
+              </div>
+            </iframe>
+          </div>
+
+          {/* Mobile / tablette : visualiseur Google Docs (scroll tactile) */}
+          <div className="lg:hidden rounded-3xl overflow-hidden border border-border shadow-card" style={{ height: "700px" }}>
             <iframe
               src="https://docs.google.com/viewer?url=https%3A%2F%2Fnasduvolantv3.pyxcelle.workers.dev%2Fbanque-questions-examen-permis-b.pdf&embedded=true"
               className="w-full h-full border-0"
