@@ -181,10 +181,9 @@ function VerificationTechnique() {
               <Eye className="h-4 w-4" /> Ouvrir dans un nouvel onglet
             </a>
           </div>
-          {/* Aperçu PDF intégré — PC uniquement (scroll molette) */}
-          <div className="hidden lg:block rounded-3xl overflow-hidden border border-border shadow-card" style={{ height: "700px" }}>
+          <div className="rounded-3xl overflow-hidden border border-border shadow-card" style={{ height: "700px" }}>
             <iframe
-              src="/banque-questions-examen-permis-b.pdf#toolbar=0&navpanes=0&scrollbar=1&view=FitH"
+              src="https://docs.google.com/viewer?url=https%3A%2F%2Fnasduvolantv3.pyxcelle.workers.dev%2Fbanque-questions-examen-permis-b.pdf&embedded=true"
               className="w-full h-full border-0"
               title="Banque officielle de questions — Ministère de l'Intérieur"
             >
@@ -202,36 +201,6 @@ function VerificationTechnique() {
                 </a>
               </div>
             </iframe>
-          </div>
-
-          {/* Carte de présentation — mobile et tablette (pas d'aperçu scrollable, juste les actions) */}
-          <div className="lg:hidden rounded-3xl border border-border bg-card shadow-card p-10 flex flex-col items-center text-center gap-5">
-            <div className="h-16 w-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-              <FileText className="h-8 w-8" />
-            </div>
-            <div>
-              <h3 className="font-display text-xl">banque-questions-examen-permis-b.pdf</h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-sm">
-                41 pages · Document officiel du Ministère de l'Intérieur. Téléchargez-le ou ouvrez-le pour le consulter confortablement sur votre appareil.
-              </p>
-            </div>
-            <div className="flex flex-wrap justify-center gap-3 mt-1">
-              <a
-                href="/banque-questions-examen-permis-b.pdf"
-                download="banque-questions-examen-permis-b.pdf"
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground shadow-red hover:opacity-90 transition-all"
-              >
-                <Download className="h-4 w-4" /> Télécharger le PDF
-              </a>
-              <a
-                href="/banque-questions-examen-permis-b.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-border px-7 py-3.5 text-sm font-medium hover:bg-secondary transition-colors"
-              >
-                <Eye className="h-4 w-4" /> Ouvrir le PDF
-              </a>
-            </div>
           </div>
         </div>
       </section>
