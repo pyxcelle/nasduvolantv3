@@ -1,31 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { MapPin, Phone, Clock, Mail, Copy, Check } from "lucide-react";
+import { MapPin, Phone, Clock, Mail, Copy } from "lucide-react";
 import logo from "@/assets/logo-nas-du-volant.jpg";
-import { useState } from "react";
-
-function FooterPhoneCopy() {
-  const [copied, setCopied] = useState(false);
-  const handleCopy = () => {
-    navigator.clipboard.writeText("09 78 80 22 32").then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  };
-  return (
-    <button
-      type="button"
-      onClick={handleCopy}
-      className="flex items-center gap-1.5 hover:text-primary transition-colors"
-      title="Copier le numéro"
-    >
-      09 78 80 22 32
-      {copied
-        ? <><Check className="h-3 w-3 text-primary" /><span className="text-xs text-primary">Copié !</span></>
-        : <Copy className="h-3 w-3 text-muted-foreground" />
-      }
-    </button>
-  );
-}
 
 export function SiteFooter() {
   return (
@@ -58,10 +33,56 @@ export function SiteFooter() {
         <div>
           <div className="text-xs tracking-[0.3em] uppercase text-primary mb-5">Contact</div>
           <ul className="space-y-3 text-sm">
-            <li className="flex gap-2"><MapPin className="h-4 w-4 mt-0.5 text-primary shrink-0" />133 Av. Franklin Roosevelt, 69500 Bron</li>
-            <li className="flex gap-2 items-center"><Phone className="h-4 w-4 mt-0.5 text-primary shrink-0" /><FooterPhoneCopy /></li>
-            <li className="flex gap-2"><Mail className="h-4 w-4 mt-0.5 text-primary shrink-0" /><a href="mailto:nasduvolant@gmail.com" className="hover:text-primary transition-colors">nasduvolant@gmail.com</a></li>
-            <li className="flex gap-2 items-start"><Clock className="h-4 w-4 mt-0.5 text-primary shrink-0" /><span className="text-xs leading-relaxed">Lun : 14h–19h · Mar–Ven : 10h–12h, 14h–19h · Sam : 9h–12h</span></li>
+            <li className="flex gap-2">
+              <MapPin className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+              133 Av. Franklin Roosevelt, 69500 Bron
+            </li>
+            <li className="flex gap-2 items-center">
+              <Phone className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+              {/* Bouton copier — DOM direct, pas de useState */}
+              <button
+                type="button"
+                title="Copier le numéro"
+                aria-label="Copier le numéro 09 78 80 22 32"
+                className="flex items-center gap-1.5 hover:text-primary transition-colors group"
+                onClick={(e) => {
+                  const btn = e.currentTarget;
+                  navigator.clipboard.writeText("09 78 80 22 32").then(() => {
+                    btn.setAttribute("data-copied", "true");
+                    btn.querySelector("[data-icon]")?.setAttribute("data-copied", "true");
+                    const label = btn.querySelector("[data-label]") as HTMLElement | null;
+                    if (label) { label.textContent = "Copié !"; label.style.display = "inline"; }
+                    setTimeout(() => {
+                      btn.removeAttribute("data-copied");
+                      if (label) { label.textContent = ""; label.style.display = "none"; }
+                    }, 2000);
+                  }).catch(() => {
+                    /* fallback silencieux */
+                  });
+                }}
+              >
+                09 78 80 22 32
+                <Copy
+                  data-icon
+                  className="h-3 w-3 text-muted-foreground group-hover:text-primary transition-colors"
+                  aria-hidden="true"
+                />
+                <span
+                  data-label
+                  className="text-xs text-primary"
+                  style={{ display: "none" }}
+                  aria-live="polite"
+                />
+              </button>
+            </li>
+            <li className="flex gap-2">
+              <Mail className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+              <a href="mailto:nasduvolant@gmail.com" className="hover:text-primary transition-colors">nasduvolant@gmail.com</a>
+            </li>
+            <li className="flex gap-2 items-start">
+              <Clock className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+              <span className="text-xs leading-relaxed">Lun : 14h–19h · Mar–Ven : 10h–12h, 14h–19h · Sam : 9h–12h</span>
+            </li>
           </ul>
         </div>
       </div>

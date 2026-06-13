@@ -8,7 +8,7 @@ interface CallButtonProps {
 
 export function CallButton({ className, children, id = "contact-modal" }: CallButtonProps) {
   const checkboxId = `${id}-checkbox`;
-  const modalId = `${id}-modal`;
+  const modalId    = `${id}-modal`;
 
   const defaultContent = (
     <>
@@ -19,7 +19,7 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
   return (
     <>
       <style>{`
-        /* L'input checkbox est toujours caché */
+        /* Checkbox toujours invisible */
         #${checkboxId} {
           position: absolute;
           opacity: 0;
@@ -28,39 +28,57 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
           height: 0;
         }
 
-        /* Mobile : label = lien direct, pas de modal */
+        /* Mobile → lien direct, pas de modal */
         .${id}-label-desktop { display: none; }
         .${id}-link-mobile   { display: inline-flex; }
 
-        /* Desktop : label = bouton modal, lien mobile masqué */
         @media (min-width: 768px) {
           .${id}-label-desktop { display: inline-flex; }
           .${id}-link-mobile   { display: none; }
         }
 
-        /* Modal : caché par défaut */
+        /* Modal caché par défaut */
         #${modalId} {
           display: none;
           position: fixed;
           inset: 0;
           z-index: 200;
-          align-items: center;
-          justify-content: center;
-          padding: 1.5rem;
+          padding: 2rem 1.5rem;
           background: rgba(0,0,0,0.6);
           backdrop-filter: blur(4px);
+          /* centrage vertical avec scroll si écran trop petit */
+          overflow-y: auto;
+          align-items: flex-start;
+          justify-content: center;
         }
 
-        /* Modal visible quand checkbox cochée */
+        /* Visible quand cochée */
         #${checkboxId}:checked ~ #${modalId} {
           display: flex;
         }
+
+        /* Overlay derrière la card */
+        #${modalId} .modal-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 0;
+          cursor: default;
+        }
+
+        /* Card au-dessus de l'overlay */
+        #${modalId} .modal-card {
+          position: relative;
+          z-index: 1;
+          margin: auto;
+          width: 100%;
+          max-width: 24rem;
+        }
       `}</style>
 
-      {/* Checkbox cachée — pilote le modal */}
+      {/* Checkbox cachée */}
       <input type="checkbox" id={checkboxId} />
 
-      {/* Mobile : appel direct (pas de label, pas de modal) */}
+      {/* Mobile : appel direct */}
       <a
         href="tel:+33978802232"
         className={`${id}-link-mobile items-center gap-2 ${className}`}
@@ -68,7 +86,7 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
         {children ?? defaultContent}
       </a>
 
-      {/* Desktop : label qui coche la checkbox → ouvre le modal */}
+      {/* Desktop : label ouvre le modal */}
       <label
         htmlFor={checkboxId}
         className={`${id}-label-desktop items-center gap-2 cursor-pointer ${className}`}
@@ -76,45 +94,48 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
         {children ?? defaultContent}
       </label>
 
-      {/* Modal — CSS-only, fermé par un second label (décocher) */}
-      <div id={modalId}>
-        {/* Overlay cliquable pour fermer */}
-        <label
-          htmlFor={checkboxId}
-          className="absolute inset-0"
-          aria-label="Fermer"
-          style={{ cursor: "default" }}
-        />
+      {/* Modal */}
+      <div id={modalId} role="dialog" aria-modal="true" aria-label="Nous contacter">
 
-        <div
-          className="relative w-full max-w-sm rounded-3xl border border-border bg-card p-8 shadow-card"
-          style={{ zIndex: 1 }}
-        >
-          {/* Croix — ferme le modal */}
+        {/* Overlay — ferme le modal */}
+        <label htmlFor={checkboxId} className="modal-overlay" aria-label="Fermer le modal" />
+
+        {/* Card — z-index: 1, au-dessus de l'overlay */}
+        <div className="modal-card rounded-3xl border border-border bg-card p-8 shadow-card">
+
+          {/* Croix */}
           <label
             htmlFor={checkboxId}
             className="absolute top-4 right-4 rounded-full p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors cursor-pointer flex items-center justify-center"
+            aria-label="Fermer"
           >
             <X className="h-4 w-4" />
           </label>
 
           <div className="text-xs tracking-[0.3em] uppercase text-primary mb-4">Nous contacter</div>
           <h2 className="font-display text-2xl text-balance">Une question sur votre formation ?</h2>
-          <p className="mt-2 text-sm text-muted-foreground">Notre équipe vous répond et construit avec vous le parcours idéal.</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Notre équipe vous répond et construit avec vous le parcours idéal.
+          </p>
 
           <div className="mt-6 space-y-3">
-            {/* Numéro — sélectionnable */}
-            <div className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium select-text">
+            {/* Numéro — sélectionnable, non cliquable, pointer-events: auto sur le contenu */}
+            <div
+              className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium"
+              style={{ userSelect: "text" }}
+            >
               <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                 <Phone className="h-4 w-4" />
               </div>
               <div>
-                <div className="font-medium" style={{ userSelect: "text" }}>09 78 80 22 32</div>
+                <div className="font-medium" style={{ userSelect: "text", cursor: "text" }}>
+                  09 78 80 22 32
+                </div>
                 <div className="text-xs text-muted-foreground">Lun–Ven 14h–19h · Sam 10h–12h</div>
               </div>
             </div>
 
-            {/* Email — cliquable */}
+            {/* Email */}
             <a
               href="mailto:nasduvolant@gmail.com"
               className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium hover:border-primary/50 transition-colors"
