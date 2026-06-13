@@ -85,17 +85,15 @@ function RootShell({ children }: { children: React.ReactNode }) {
           dangerouslySetInnerHTML={{
             __html: `
               (function () {
-                var ids = ["footer-phone-copy", "modal-phone-copy"];
-                function bindCopyButton(buttonId) {
-                  var btn = document.getElementById(buttonId);
-                  if (!btn || btn.dataset.bound) return;
+                function bindCopyButton(btn) {
+                  if (btn.dataset.bound) return;
                   btn.dataset.bound = "true";
                   btn.addEventListener("click", function () {
-                    var text = btn.getAttribute("data-phone") || "";
+                    var text = btn.getAttribute("data-phone-copy") || "";
+                    var copyIcon = btn.querySelector(".copy-icon-default");
+                    var checkIcon = btn.querySelector(".copy-icon-success");
+                    var label = btn.querySelector(".copy-label-success");
                     function showCopied() {
-                      var copyIcon = document.getElementById(buttonId + "-icon");
-                      var checkIcon = document.getElementById(buttonId.replace("-copy", "-check") + "-icon");
-                      var label = document.getElementById(buttonId.replace("-copy", "-copied") + "-label");
                       if (copyIcon) copyIcon.classList.add("hidden");
                       if (checkIcon) checkIcon.classList.remove("hidden");
                       if (label) label.classList.remove("hidden");
@@ -128,7 +126,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
                   });
                 }
                 function bindAll() {
-                  ids.forEach(bindCopyButton);
+                  document.querySelectorAll("[data-phone-copy]").forEach(bindCopyButton);
                 }
                 if (document.readyState === "loading") {
                   document.addEventListener("DOMContentLoaded", bindAll);
@@ -185,8 +183,7 @@ function RootComponent() {
             <div className="mt-6 space-y-3">
               <button
                 type="button"
-                id="modal-phone-copy"
-                data-phone="09 78 80 22 32"
+                data-phone-copy="09 78 80 22 32"
                 title="Copier le numéro"
                 className="w-full flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium hover:border-primary/50 transition-colors text-left cursor-pointer"
               >
@@ -196,9 +193,9 @@ function RootComponent() {
                 <div className="flex-1">
                   <div className="font-medium flex items-center gap-1.5">
                     09 78 80 22 32
-                    <Copy id="modal-phone-copy-icon" className="h-3 w-3 text-muted-foreground" />
-                    <Check id="modal-phone-check-icon" className="h-3 w-3 text-primary hidden" />
-                    <span id="modal-phone-copied-label" className="text-xs text-primary hidden">Copié !</span>
+                    <Copy className="copy-icon-default h-3 w-3 text-muted-foreground" />
+                    <Check className="copy-icon-success h-3 w-3 text-primary hidden" />
+                    <span className="copy-label-success text-xs text-primary hidden">Copié !</span>
                   </div>
                   <div className="text-xs text-muted-foreground">Lun–Ven 14h–19h · Sam 10h–12h</div>
                 </div>

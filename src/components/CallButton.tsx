@@ -1,4 +1,4 @@
-import { ArrowRight, Phone, Mail, X } from "lucide-react";
+import { ArrowRight, Phone, Mail, X, Copy, Check } from "lucide-react";
 
 interface CallButtonProps {
   className?: string;
@@ -71,13 +71,23 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
             <h2 className="font-display text-2xl text-balance">Une question sur votre formation ?</h2>
             <p className="mt-2 text-sm text-muted-foreground">Notre équipe vous répond et construit avec vous le parcours idéal.</p>
             <div className="mt-6 space-y-3">
-              <div className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium">
+              <button
+                type="button"
+                data-phone-copy="09 78 80 22 32"
+                title="Copier le numéro"
+                className="w-full flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium hover:border-primary/50 transition-colors text-left cursor-pointer"
+              >
                 <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0"><Phone className="h-4 w-4" /></div>
-                <div>
-                  <div style={{ userSelect: "text", cursor: "text" }} className="font-medium">09 78 80 22 32</div>
+                <div className="flex-1">
+                  <div className="font-medium flex items-center gap-1.5">
+                    09 78 80 22 32
+                    <Copy className="copy-icon-default h-3 w-3 text-muted-foreground" />
+                    <Check className="copy-icon-success h-3 w-3 text-primary hidden" />
+                    <span className="copy-label-success text-xs text-primary hidden">Copié !</span>
+                  </div>
                   <div className="text-xs text-muted-foreground">Lun–Ven 14h–19h · Sam 10h–12h</div>
                 </div>
-              </div>
+              </button>
               <a href="mailto:nasduvolant@gmail.com" className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium hover:border-primary/50 transition-colors">
                 <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0"><Mail className="h-4 w-4" /></div>
                 <div>

@@ -6,15 +6,14 @@ function FooterPhoneCopy() {
   return (
     <button
       type="button"
-      id="footer-phone-copy"
-      data-phone="09 78 80 22 32"
+      data-phone-copy="09 78 80 22 32"
       className="flex items-center gap-1.5 hover:text-primary transition-colors"
       title="Copier le numéro"
     >
       09 78 80 22 32
-      <Copy id="footer-phone-copy-icon" className="h-3 w-3 text-muted-foreground" />
-      <Check id="footer-phone-check-icon" className="h-3 w-3 text-primary hidden" />
-      <span id="footer-phone-copied-label" className="text-xs text-primary hidden">Copié !</span>
+      <Copy className="copy-icon-default h-3 w-3 text-muted-foreground" />
+      <Check className="copy-icon-success h-3 w-3 text-primary hidden" />
+      <span className="copy-label-success text-xs text-primary hidden">Copié !</span>
     </button>
   );
 }
