@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { MapPin, Phone, Clock, Mail, Copy } from "lucide-react";
+import { MapPin, Phone, Clock, Mail } from "lucide-react";
 import logo from "@/assets/logo-nas-du-volant.jpg";
 
 export function SiteFooter() {
@@ -39,48 +39,19 @@ export function SiteFooter() {
             </li>
             <li className="flex gap-2 items-center">
               <Phone className="h-4 w-4 mt-0.5 text-primary shrink-0" />
-              {/* Bouton copier — DOM direct, pas de useState */}
               <button
                 type="button"
+                id="footer-copy-btn"
                 title="Copier le numéro"
-                aria-label="Copier le numéro 09 78 80 22 32"
-                className="flex items-center gap-1.5 hover:text-primary transition-colors group"
-                onClick={(e) => {
-                  const btn = e.currentTarget;
-                  const num = "09 78 80 22 32";
-                  const showFeedback = () => {
-                    const label = btn.querySelector("[data-label]") as HTMLElement | null;
-                    if (label) { label.textContent = "Copié !"; label.style.display = "inline"; }
-                    setTimeout(() => {
-                      if (label) { label.textContent = ""; label.style.display = "none"; }
-                    }, 2000);
-                  };
-                  if (navigator.clipboard) {
-                    navigator.clipboard.writeText(num).then(showFeedback).catch(() => {});
-                  } else {
-                    const ta = document.createElement("textarea");
-                    ta.value = num;
-                    ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;";
-                    document.body.appendChild(ta);
-                    ta.focus(); ta.select();
-                    try { document.execCommand("copy"); showFeedback(); } catch {}
-                    document.body.removeChild(ta);
-                  }
-                }}
+                className="flex items-center gap-1.5 hover:text-primary transition-colors cursor-pointer text-sm"
               >
                 09 78 80 22 32
-                <Copy
-                  data-icon
-                  className="h-3 w-3 text-muted-foreground group-hover:text-primary transition-colors"
-                  aria-hidden="true"
-                />
-                <span
-                  data-label
-                  className="text-xs text-primary"
-                  style={{ display: "none" }}
-                  aria-live="polite"
-                />
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ opacity: 0.5 }}>
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                </svg>
               </button>
+              <span id="footer-copy-fb" className="text-xs text-primary ml-1" style={{ display: "none" }}>Copié !</span>
             </li>
             <li className="flex gap-2">
               <Mail className="h-4 w-4 mt-0.5 text-primary shrink-0" />
@@ -99,6 +70,43 @@ export function SiteFooter() {
           <div className="font-display italic">Pour une formation sûre <span className="text-primary">et sur-mesure</span></div>
         </div>
       </div>
+
+      {/* Script natif — s'exécute après le rendu, ne dépend pas de React */}
+      <script dangerouslySetInnerHTML={{ __html: `
+        (function() {
+          function initCopyBtn() {
+            var btn = document.getElementById('footer-copy-btn');
+            var fb  = document.getElementById('footer-copy-fb');
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+              var num = '09 78 80 22 32';
+              function show() {
+                if (fb) { fb.style.display = 'inline'; setTimeout(function(){ fb.style.display = 'none'; }, 2000); }
+              }
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(num).then(show).catch(function() {
+                  var t = document.createElement('textarea');
+                  t.value = num; t.style.cssText = 'position:fixed;top:-999px;left:-999px;';
+                  document.body.appendChild(t); t.focus(); t.select();
+                  try { document.execCommand('copy'); show(); } catch(e) {}
+                  document.body.removeChild(t);
+                });
+              } else {
+                var t = document.createElement('textarea');
+                t.value = num; t.style.cssText = 'position:fixed;top:-999px;left:-999px;';
+                document.body.appendChild(t); t.focus(); t.select();
+                try { document.execCommand('copy'); show(); } catch(e) {}
+                document.body.removeChild(t);
+              }
+            });
+          }
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCopyBtn);
+          } else {
+            initCopyBtn();
+          }
+        })();
+      `}} />
     </footer>
   );
 }
