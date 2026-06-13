@@ -1,55 +1,20 @@
 import { Link } from "@tanstack/react-router";
 import { MapPin, Phone, Clock, Mail, Copy, Check } from "lucide-react";
 import logo from "@/assets/logo-nas-du-volant.jpg";
-import { useState } from "react";
-
-function fallbackCopy(text: string, onSuccess: () => void) {
-  const textarea = document.createElement("textarea");
-  textarea.value = text;
-  textarea.style.position = "fixed";
-  textarea.style.left = "-9999px";
-  textarea.style.top = "-9999px";
-  document.body.appendChild(textarea);
-  textarea.focus();
-  textarea.select();
-  try {
-    document.execCommand("copy");
-    onSuccess();
-  } catch {
-    // copy not supported, fail silently
-  }
-  document.body.removeChild(textarea);
-}
 
 function FooterPhoneCopy() {
-  const [copied, setCopied] = useState(false);
-  const handleCopy = () => {
-    const text = "09 78 80 22 32";
-    const markCopied = () => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    };
-
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).then(markCopied).catch(() => {
-        fallbackCopy(text, markCopied);
-      });
-    } else {
-      fallbackCopy(text, markCopied);
-    }
-  };
   return (
     <button
       type="button"
-      onClick={handleCopy}
+      id="footer-phone-copy"
+      data-phone="09 78 80 22 32"
       className="flex items-center gap-1.5 hover:text-primary transition-colors"
       title="Copier le numéro"
     >
       09 78 80 22 32
-      {copied
-        ? <><Check className="h-3 w-3 text-primary" /><span className="text-xs text-primary">Copié !</span></>
-        : <Copy className="h-3 w-3 text-muted-foreground" />
-      }
+      <Copy id="footer-phone-copy-icon" className="h-3 w-3 text-muted-foreground" />
+      <Check id="footer-phone-check-icon" className="h-3 w-3 text-primary hidden" />
+      <span id="footer-phone-copied-label" className="text-xs text-primary hidden">Copié !</span>
     </button>
   );
 }

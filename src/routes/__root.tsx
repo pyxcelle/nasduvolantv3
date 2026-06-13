@@ -81,6 +81,60 @@ function RootShell({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                function bindFooterPhoneCopy() {
+                  var btn = document.getElementById("footer-phone-copy");
+                  if (!btn || btn.dataset.bound) return;
+                  btn.dataset.bound = "true";
+                  btn.addEventListener("click", function () {
+                    var text = btn.getAttribute("data-phone") || "";
+                    function showCopied() {
+                      var copyIcon = document.getElementById("footer-phone-copy-icon");
+                      var checkIcon = document.getElementById("footer-phone-check-icon");
+                      var label = document.getElementById("footer-phone-copied-label");
+                      if (copyIcon) copyIcon.classList.add("hidden");
+                      if (checkIcon) checkIcon.classList.remove("hidden");
+                      if (label) label.classList.remove("hidden");
+                      setTimeout(function () {
+                        if (copyIcon) copyIcon.classList.remove("hidden");
+                        if (checkIcon) checkIcon.classList.add("hidden");
+                        if (label) label.classList.add("hidden");
+                      }, 2000);
+                    }
+                    function fallback() {
+                      var textarea = document.createElement("textarea");
+                      textarea.value = text;
+                      textarea.style.position = "fixed";
+                      textarea.style.left = "-9999px";
+                      textarea.style.top = "-9999px";
+                      document.body.appendChild(textarea);
+                      textarea.focus();
+                      textarea.select();
+                      try {
+                        document.execCommand("copy");
+                        showCopied();
+                      } catch (e) {}
+                      document.body.removeChild(textarea);
+                    }
+                    if (navigator.clipboard && window.isSecureContext) {
+                      navigator.clipboard.writeText(text).then(showCopied).catch(fallback);
+                    } else {
+                      fallback();
+                    }
+                  });
+                }
+                if (document.readyState === "loading") {
+                  document.addEventListener("DOMContentLoaded", bindFooterPhoneCopy);
+                } else {
+                  bindFooterPhoneCopy();
+                }
+              })();
+            `,
+          }}
+        />
         <Scripts />
       </body>
     </html>
