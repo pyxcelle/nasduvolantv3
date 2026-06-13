@@ -3,13 +3,40 @@ import { MapPin, Phone, Clock, Mail, Copy, Check } from "lucide-react";
 import logo from "@/assets/logo-nas-du-volant.jpg";
 import { useState } from "react";
 
+function fallbackCopy(text: string, onSuccess: () => void) {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  textarea.style.top = "-9999px";
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  try {
+    document.execCommand("copy");
+    onSuccess();
+  } catch {
+    // copy not supported, fail silently
+  }
+  document.body.removeChild(textarea);
+}
+
 function FooterPhoneCopy() {
   const [copied, setCopied] = useState(false);
   const handleCopy = () => {
-    navigator.clipboard.writeText("09 78 80 22 32").then(() => {
+    const text = "09 78 80 22 32";
+    const markCopied = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    });
+    };
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(markCopied).catch(() => {
+        fallbackCopy(text, markCopied);
+      });
+    } else {
+      fallbackCopy(text, markCopied);
+    }
   };
   return (
     <button
