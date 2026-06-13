@@ -35,44 +35,28 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
           .${id}-link-mobile   { display: none; }
         }
 
-        /* Modal : caché par défaut */
-        #${modalId} {
-          display: none;
-        }
-
-        /* Visible quand cochée */
-        #${checkboxId}:checked ~ #${modalId} {
-          display: block;
-        }
+        #${modalId} { display: none; }
+        #${checkboxId}:checked ~ #${modalId} { display: block; }
       `}</style>
 
       <input type="checkbox" id={checkboxId} />
 
-      {/* Mobile : appel direct */}
-      <a
-        href="tel:+33978802232"
-        className={`${id}-link-mobile items-center gap-2 ${className}`}
-      >
+      <a href="tel:+33978802232" className={`${id}-link-mobile items-center gap-2 ${className}`}>
         {children ?? defaultContent}
       </a>
 
-      {/* Desktop : ouvre le modal */}
-      <label
-        htmlFor={checkboxId}
-        className={`${id}-label-desktop items-center gap-2 cursor-pointer ${className}`}
-      >
+      <label htmlFor={checkboxId} className={`${id}-label-desktop items-center gap-2 cursor-pointer ${className}`}>
         {children ?? defaultContent}
       </label>
 
-      {/* Modal */}
       <div id={modalId}>
-        {/* Overlay fixe, couvre tout l'écran, z-index bas */}
+        {/* Overlay */}
         <label
           htmlFor={checkboxId}
           aria-label="Fermer le modal"
           style={{
             position: "fixed",
-            inset: 0,
+            top: 0, left: 0, right: 0, bottom: 0,
             zIndex: 200,
             background: "rgba(0,0,0,0.6)",
             backdropFilter: "blur(4px)",
@@ -81,63 +65,71 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
           }}
         />
 
-        {/* Card centrée, z-index au-dessus de l'overlay */}
+        {/* Card — centrée dans le viewport avec margin auto + flexbox trick */}
         <div
           style={{
             position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            top: 0, left: 0, right: 0, bottom: 0,
             zIndex: 201,
-            width: "calc(100% - 3rem)",
-            maxWidth: "24rem",
-            maxHeight: "calc(100vh - 4rem)",
-            overflowY: "auto",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "2rem 1.5rem",
+            pointerEvents: "none",
           }}
-          className="rounded-3xl border border-border bg-card p-8 shadow-card"
         >
-          {/* Croix */}
-          <label
-            htmlFor={checkboxId}
-            className="absolute top-4 right-4 rounded-full p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors cursor-pointer flex items-center justify-center"
-            aria-label="Fermer"
+          <div
+            className="rounded-3xl border border-border bg-card p-8 shadow-card"
+            style={{
+              position: "relative",
+              width: "100%",
+              maxWidth: "24rem",
+              maxHeight: "calc(100vh - 4rem)",
+              overflowY: "auto",
+              pointerEvents: "auto",
+            }}
           >
-            <X className="h-4 w-4" />
-          </label>
-
-          <div className="text-xs tracking-[0.3em] uppercase text-primary mb-4">Nous contacter</div>
-          <h2 className="font-display text-2xl text-balance">Une question sur votre formation ?</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Notre équipe vous répond et construit avec vous le parcours idéal.
-          </p>
-
-          <div className="mt-6 space-y-3">
-            {/* Numéro — sélectionnable, aucun label autour */}
-            <div className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium">
-              <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                <Phone className="h-4 w-4" />
-              </div>
-              <div>
-                <div className="font-medium" style={{ userSelect: "text", cursor: "text" }}>
-                  09 78 80 22 32
-                </div>
-                <div className="text-xs text-muted-foreground">Lun–Ven 14h–19h · Sam 10h–12h</div>
-              </div>
-            </div>
-
-            {/* Email */}
-            <a
-              href="mailto:nasduvolant@gmail.com"
-              className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium hover:border-primary/50 transition-colors"
+            {/* Croix */}
+            <label
+              htmlFor={checkboxId}
+              className="absolute top-4 right-4 rounded-full p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors cursor-pointer flex items-center justify-center"
+              aria-label="Fermer"
             >
-              <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                <Mail className="h-4 w-4" />
+              <X className="h-4 w-4" />
+            </label>
+
+            <div className="text-xs tracking-[0.3em] uppercase text-primary mb-4">Nous contacter</div>
+            <h2 className="font-display text-2xl text-balance">Une question sur votre formation ?</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Notre équipe vous répond et construit avec vous le parcours idéal.
+            </p>
+
+            <div className="mt-6 space-y-3">
+              <div className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium">
+                <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                  <Phone className="h-4 w-4" />
+                </div>
+                <div>
+                  <div className="font-medium" style={{ userSelect: "text", cursor: "text" }}>
+                    09 78 80 22 32
+                  </div>
+                  <div className="text-xs text-muted-foreground">Lun–Ven 14h–19h · Sam 10h–12h</div>
+                </div>
               </div>
-              <div>
-                <div className="font-medium">nasduvolant@gmail.com</div>
-                <div className="text-xs text-muted-foreground">Réponse sous 24h</div>
-              </div>
-            </a>
+
+              <a
+                href="mailto:nasduvolant@gmail.com"
+                className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm font-medium hover:border-primary/50 transition-colors"
+              >
+                <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                  <Mail className="h-4 w-4" />
+                </div>
+                <div>
+                  <div className="font-medium">nasduvolant@gmail.com</div>
+                  <div className="text-xs text-muted-foreground">Réponse sous 24h</div>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
