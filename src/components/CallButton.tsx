@@ -6,13 +6,14 @@ interface CallButtonProps {
   className?: string;
   children?: React.ReactNode;
   id?: string;
+  /** Sur mobile : appel direct. Sur desktop : modal. Default: true */
+  mobileCall?: boolean;
 }
 
-export function CallButton({ className, children, id = "contact-modal" }: CallButtonProps) {
+export function CallButton({ className, children, id = "contact-modal", mobileCall = true }: CallButtonProps) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // Évite le mismatch SSR : on monte le portal uniquement côté client
   useEffect(() => { setMounted(true); }, []);
 
   const defaultContent = (
@@ -21,7 +22,7 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
     </>
   );
 
-  const modal = (
+  const modal = mounted && open ? createPortal(
     <div
       style={{
         position: "fixed",
@@ -89,39 +90,47 @@ export function CallButton({ className, children, id = "contact-modal" }: CallBu
           </a>
         </div>
       </div>
-    </div>
-  );
+    </div>,
+    document.body
+  ) : null;
 
+  // Sur mobile avec mobileCall=true : simple lien tel:
+  if (mobileCall) {
+    return (
+      <>
+        {/* Mobile (<768px) : appel direct */}
+        <a
+          href="tel:+33978802232"
+          className={`inline-flex md:hidden items-center gap-2 ${className}`}
+        >
+          {children ?? defaultContent}
+        </a>
+
+        {/* Desktop (≥768px) : bouton ouvre le modal */}
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className={`hidden md:inline-flex items-center gap-2 cursor-pointer ${className}`}
+        >
+          {children ?? defaultContent}
+        </button>
+
+        {modal}
+      </>
+    );
+  }
+
+  // Sans split mobile/desktop : toujours le modal
   return (
     <>
-      <style>{`
-        .${id}-link-mobile   { display: inline-flex; }
-        .${id}-label-desktop { display: none; }
-        @media (min-width: 768px) {
-          .${id}-link-mobile   { display: none; }
-          .${id}-label-desktop { display: inline-flex; }
-        }
-      `}</style>
-
-      {/* Mobile : appel direct */}
-      <a
-        href="tel:+33978802232"
-        className={`${id}-link-mobile items-center gap-2 ${className}`}
-      >
-        {children ?? defaultContent}
-      </a>
-
-      {/* Desktop : ouvre le modal */}
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={`${id}-label-desktop items-center gap-2 cursor-pointer ${className}`}
+        className={`inline-flex items-center gap-2 cursor-pointer ${className}`}
       >
         {children ?? defaultContent}
       </button>
-
-      {/* Portal : rendu directement dans <body>, échappe tout stacking context */}
-      {mounted && open && createPortal(modal, document.body)}
+      {modal}
     </>
   );
 }
