@@ -47,18 +47,25 @@ export function SiteFooter() {
                 className="flex items-center gap-1.5 hover:text-primary transition-colors group"
                 onClick={(e) => {
                   const btn = e.currentTarget;
-                  navigator.clipboard.writeText("09 78 80 22 32").then(() => {
-                    btn.setAttribute("data-copied", "true");
-                    btn.querySelector("[data-icon]")?.setAttribute("data-copied", "true");
+                  const num = "09 78 80 22 32";
+                  const showFeedback = () => {
                     const label = btn.querySelector("[data-label]") as HTMLElement | null;
                     if (label) { label.textContent = "Copié !"; label.style.display = "inline"; }
                     setTimeout(() => {
-                      btn.removeAttribute("data-copied");
                       if (label) { label.textContent = ""; label.style.display = "none"; }
                     }, 2000);
-                  }).catch(() => {
-                    /* fallback silencieux */
-                  });
+                  };
+                  if (navigator.clipboard) {
+                    navigator.clipboard.writeText(num).then(showFeedback).catch(() => {});
+                  } else {
+                    const ta = document.createElement("textarea");
+                    ta.value = num;
+                    ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;";
+                    document.body.appendChild(ta);
+                    ta.focus(); ta.select();
+                    try { document.execCommand("copy"); showFeedback(); } catch {}
+                    document.body.removeChild(ta);
+                  }
                 }}
               >
                 09 78 80 22 32
