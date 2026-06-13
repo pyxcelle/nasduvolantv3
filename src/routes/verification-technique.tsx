@@ -182,7 +182,7 @@ function VerificationTechnique() {
             </a>
           </div>
           {/* PC : visualiseur PDF natif (molette) */}
-          <div className="hidden lg:block rounded-3xl overflow-hidden border border-border shadow-card" style={{ height: "700px" }}>
+          <div className="hidden xl:block rounded-3xl overflow-hidden border border-border shadow-card" style={{ height: "700px" }}>
             <iframe
               src="/banque-questions-examen-permis-b.pdf#toolbar=0&navpanes=0&scrollbar=1&view=FitH"
               className="w-full h-full border-0"
@@ -205,7 +205,7 @@ function VerificationTechnique() {
           </div>
 
           {/* Mobile / tablette : visualiseur Google Docs (scroll tactile) */}
-          <div className="lg:hidden rounded-3xl overflow-hidden border border-border shadow-card" style={{ height: "700px" }}>
+          <div className="xl:hidden rounded-3xl overflow-hidden border border-border shadow-card" style={{ height: "700px" }}>
             <iframe
               src="https://docs.google.com/viewer?url=https%3A%2F%2Fnasduvolantv3.pyxcelle.workers.dev%2Fbanque-questions-examen-permis-b.pdf&embedded=true"
               className="w-full h-full border-0"
